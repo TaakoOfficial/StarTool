@@ -1,0 +1,9 @@
+name: StarTool
+version: ${project.version}
+main: me.toonamisenpai.startool.Main
+api-version: 1.16
+prefix: Visen StarTool
+load: STARTUP
+authors: [ToonamiSenpai]
+description: Trident Does things
+website: visengaming.com
