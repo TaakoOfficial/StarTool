@@ -1,12 +1,18 @@
 package me.toonamisenpai.startool;
 
+
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -70,6 +76,45 @@ public final class Main extends JavaPlugin implements Listener {
 		item.setItemMeta(meta);
 
 		return item;
+	}
+
+	@EventHandler
+	public void onClick(PlayerInteractEvent event) {
+		if (event.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.TRIDENT))
+			if (event.getPlayer().getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+				Player player = (Player) event.getPlayer();
+				//Right click
+				if (event.getAction() == Action.RIGHT_CLICK_AIR) {
+					if (!list.contains(player.getName()))
+						list.add(player.getName());
+					return;
+
+				}
+
+				//left click
+				if (event.getAction() == Action.LEFT_CLICK_AIR) {
+					player.launchProjectile(Fireball.class);
+					player.launchProjectile(TNTPrimed.class);
+				}
+			}
+		if (list.contains(event.getPlayer().getName())) {
+			list.remove(event.getPlayer().getName());
+		}
+	}
+	@EventHandler
+	public void onLand(ProjectileHitEvent event) {
+		if (event.getEntityType() == EntityType.TRIDENT) {
+			if (event.getEntity().getShooter() instanceof Player) {
+				Player player = (Player) event.getEntity();
+				if (list.contains(player.getName())) {
+					//spawn mobs
+					Location loc = event.getEntity().getLocation();
+					loc.setY((loc.getY()) + 1);
+
+					loc.getWorld().spawnEntity(loc, EntityType.CREEPER);
+				}
+			}
+		}
 	}
 
 }

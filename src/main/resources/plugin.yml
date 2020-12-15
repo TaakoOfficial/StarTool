@@ -7,3 +7,6 @@ load: STARTUP
 authors: [ToonamiSenpai]
 description: Trident Does things
 website: visengaming.com
+
+commands:
+    Startool:
