@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
@@ -26,8 +27,9 @@ public final class Main extends JavaPlugin implements Listener {
 	public List<String> list = new ArrayList<String>();
 
 	@Override
+
 	public void onEnable() {
-		this.getServer().getPluginManager().registerEvents(new StarEvents(this), this);
+		this.getServer().getPluginManager().registerEvents(this,this);
 	}
 
 	@Override
@@ -35,7 +37,7 @@ public final class Main extends JavaPlugin implements Listener {
 
 	}
 
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (label.equalsIgnoreCase("startool")) {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(ChatColor.DARK_RED + "You cannot run this command!");
@@ -94,7 +96,7 @@ public final class Main extends JavaPlugin implements Listener {
 				//left click
 				if (event.getAction() == Action.LEFT_CLICK_AIR) {
 					player.launchProjectile(Fireball.class);
-					player.launchProjectile(TNTPrimed.class);
+					player.launchProjectile(Arrow.class);
 				}
 			}
 		if (list.contains(event.getPlayer().getName())) {
